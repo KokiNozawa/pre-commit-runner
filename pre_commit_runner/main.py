@@ -13,25 +13,25 @@ def main():
         if (x := pathlib.Path(path)) and x.is_relative_to(project_root)
     ]
 
-    # 実行ファイル検索
-    path_items = os.environ.get("PATH", "").split(os.path.pathsep)
-    run_with_shell = True
-    for path_item in path_items:
-        if not path_item:
-            continue
-        target_path = pathlib.Path(path_item)
-        if target_path.is_dir():
-            print(f"check-path: {target_path}")
-            poetry_execute_file = [file for file in target_path.iterdir() if file.is_file() and file.stem == "poetry"]
-            pre_commit_execute_file = [
-                file for file in target_path.iterdir() if file.is_file() and file.stem == "pre-commit"
-            ]
+    # # 実行ファイル検索
+    # path_items = os.environ.get("PATH", "").split(os.path.pathsep)
+    # run_with_shell = True
+    # for path_item in path_items:
+    #     if not path_item:
+    #         continue
+    #     target_path = pathlib.Path(path_item)
+    #     if target_path.is_dir():
+    #         print(f"check-path: {target_path}")
+    #         poetry_execute_file = [file for file in target_path.iterdir() if file.is_file() and file.stem == "poetry"]
+    #         pre_commit_execute_file = [
+    #             file for file in target_path.iterdir() if file.is_file() and file.stem == "pre-commit"
+    #         ]
 
-            if poetry_execute_file and pre_commit_execute_file:
-                print(f"find: {poetry_execute_file[0].name}")
-                print(f"find: {pre_commit_execute_file[0].name}")
-                run_with_shell = False
-                break
+    #         if poetry_execute_file and pre_commit_execute_file:
+    #             print(f"find: {poetry_execute_file[0].name}")
+    #             print(f"find: {pre_commit_execute_file[0].name}")
+    #             run_with_shell = False
+    #             break
 
     if files:
         print(files)
@@ -40,7 +40,7 @@ def main():
         proc = subprocess.run(
             ["poetry", "run", "pre-commit", "run", "--files", *[str(p) for p in files]],
             cwd=str(target_pwd),
-            shell=run_with_shell
+            # shell=run_with_shell
         )
         exit(proc.returncode)
     else:
