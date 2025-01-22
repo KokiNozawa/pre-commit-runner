@@ -34,6 +34,8 @@ def main():
                 break
 
     if files:
+        print(files)
+        print(["poetry", "run", "pre-commit", "run", "--files", *[str(p) for p in files]])
         target_pwd = repository_root / sys.argv[1]
         proc = subprocess.run(
             ["poetry", "run", "pre-commit", "run", "--files", *[str(p) for p in files]],
